@@ -1,0 +1,10 @@
+rootProject.name = 'daily_project'
+include 'boot:boot-meta'
+findProject(':boot:boot-meta')?.name = 'boot-meta'
+include 'data:data-meta'
+findProject(':data:data-meta')?.name = 'data-meta'
+include 'boot:boot-admin'
+findProject(':boot:boot-admin')?.name = 'boot-admin'
+include 'data:data-user'
+findProject(':data:data-user')?.name = 'data-user'
+

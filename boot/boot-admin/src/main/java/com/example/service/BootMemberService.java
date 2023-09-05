@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BootMemberService {
 
-    MemberService memberService;
+    private final MemberService memberService;
 
     public List<MemberResponse> findAll() {
         return memberService.findAll().stream().map(MemberResponse::fromEntity)

@@ -32,6 +32,7 @@ subprojects {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
     }
 
     tasks.named('bootJar') { //빌드할 때 bootjar 파일로 하겠다는 의미

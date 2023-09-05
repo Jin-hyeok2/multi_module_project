@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DailyProject {
+public class MetaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DailyProject.class, args);
+        SpringApplication.run(MetaApplication.class, args);
     }
 }

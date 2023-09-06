@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: local-gateway
+
+  gateway-url: http://localhost:9120
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev-gateway
+
+  gateway-url: http://localhost:9120

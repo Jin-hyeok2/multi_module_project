@@ -17,7 +17,7 @@ public class JpaBaseEntity {
     protected LocalDateTime createdAt;
     @LastModifiedDate
     protected LocalDateTime updatedAt;
-    protected LocalDateTime deletedOn = LocalDateTime.MAX;
+    protected LocalDateTime deletedOn;
     protected Boolean isDeleted = false;
 
 }

@@ -19,8 +19,8 @@ public class MemberService {
     }
 
     public Member create(String platForm) throws EnumNotFoundException {
-        return Member.builder()
+        return memberRepository.save(Member.builder()
             .signUpPlatform(SignUpPlatform.fromCode(platForm))
-            .build();
+            .build());
     }
 }

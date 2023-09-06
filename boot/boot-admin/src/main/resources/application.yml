@@ -1,0 +1,15 @@
+server:
+  port: 8991
+
+spring:
+  profiles:
+    active:
+      - local
+    group:
+      local: local-db, local-gateway
+      dev: dev-db, dev-gateway
+
+  config:
+    import:
+      - classpath:/application-db.yml
+      - classpath:/application-gateway.yml

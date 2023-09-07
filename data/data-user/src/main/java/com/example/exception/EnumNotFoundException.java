@@ -1,6 +1,6 @@
 package com.example.exception;
 
-public class EnumNotFoundException extends Exception {
+public class EnumNotFoundException extends RuntimeException {
 
     private EnumNotFoundException(String message) {
         super(message);

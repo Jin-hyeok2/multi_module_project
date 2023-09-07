@@ -17,7 +17,7 @@ public enum SignUpPlatform {
         this.description = description;
     }
 
-    public static SignUpPlatform fromCode(String code) throws EnumNotFoundException {
+    public static SignUpPlatform fromCode(String code) {
         return Stream.of(values())
             .filter(signUpPlatform -> code.equalsIgnoreCase(signUpPlatform.code))
             .findFirst().orElseThrow(EnumNotFoundException::code);

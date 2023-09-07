@@ -10,8 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @UtilityClass
 public class Utility {
     private final int KEY_LENGTH = 6;
-    private final int LOWER_BOUND = '0';
-    private final int DIF_BOUND = 'z' - '0';
+    private final String VERIFY_LATTER_COLLECTION = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     public String encodePassword(String raw) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -28,7 +27,7 @@ public class Utility {
         SecureRandom random = new SecureRandom();
 
         for(int i = 0; i < KEY_LENGTH; i++) {
-            char randomChar = (char) (random.nextInt(DIF_BOUND) + LOWER_BOUND);
+            char randomChar = VERIFY_LATTER_COLLECTION.charAt(random.nextInt(VERIFY_LATTER_COLLECTION.length()));
             verificationKeyBuilder.append(randomChar);
         }
 

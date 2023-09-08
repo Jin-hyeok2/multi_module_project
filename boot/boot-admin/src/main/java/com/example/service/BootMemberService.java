@@ -1,11 +1,13 @@
 package com.example.service;
 
-import com.example.dto.SearchFilter;
+import com.example.dto.SignInForm;
 import com.example.dto.SignUpForm;
 import com.example.dto.response.MemberResponse;
 import com.example.entity.Member;
+import com.example.entity.SignUpPlatform;
+import com.example.exception.MemberDuplicateException;
+import com.example.exception.MemberNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +18,29 @@ public class BootMemberService {
     private final MemberService memberService;
     private final MemberAuthService memberAuthService;
 
-    public List<MemberResponse> findAll(SearchFilter searchFilter) {
-        return memberService.findAll(searchFilter).stream().map(MemberResponse::fromEntity)
-            .collect(Collectors.toList());
-    }
-
     public MemberResponse signUp(SignUpForm signUpForm) {
+        memberService.findOne(
+                signUpForm.getEmail(),
+                signUpForm.getSignUpPlatform())
+            .ifPresent(MemberDuplicateException::from);
         Member member = memberService.create(signUpForm);
         memberAuthService.createVerificationKey(member);
-        return MemberResponse.fromEntity(member);
+        return MemberResponse.from(member);
     }
 
+    public MemberResponse signIn(SignInForm signInForm) {
+        List<Member> membersHasEmail = memberAuthService.getMembersHasEmail(signInForm);
+        if (membersHasEmail.size() == 0) {
+            throw MemberNotFoundException.of();
+        }
+        Member targetMember;
+        for (Member member : membersHasEmail) {
+            if (member.getSignUpPlatform().equals(SignUpPlatform.DEFAULT)) {
+                targetMember = member;
+            }
+        }
+
+//        return MemberResponse.from(member);
+        return null;
+    }
 }

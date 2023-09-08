@@ -31,7 +31,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = {"email", "signUpPlatform", "deletedOn"}))
+@Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = {"email",
+    "signUpPlatform", "deletedOn"}))
 public class Member extends JpaBaseEntity implements UserDetails {
 
     @Id
@@ -67,12 +68,13 @@ public class Member extends JpaBaseEntity implements UserDetails {
             .password(Utility.encodePassword(signUpForm.getPassword()))
             .birth(Utility.parseDate(signUpForm.getBirth()))
             .phoneNumber(signUpForm.getPhoneNumber())
-            .signUpPlatform(SignUpPlatform.fromCode(signUpForm.getSignUpPlatform()))
+            .signUpPlatform(signUpForm.getSignUpPlatform())
             .build();
     }
 
     public String setVerificationKey(String verificationKey) {
         this.verificationKey = verificationKey;
+        this.verifyExpiredAt = LocalDateTime.now().plusMinutes(3);
         return verificationKey;
     }
 

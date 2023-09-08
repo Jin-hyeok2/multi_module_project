@@ -1,4 +1,4 @@
-package com.example.dto.request;
+package com.example.member.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

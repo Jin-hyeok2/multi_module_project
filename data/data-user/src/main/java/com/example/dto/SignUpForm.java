@@ -1,5 +1,6 @@
 package com.example.dto;
 
+import com.example.entity.SignUpPlatform;
 import com.example.utility.EmailPattern;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,5 +30,9 @@ public class SignUpForm {
     @NotNull
     private String signUpPlatform;
     private List<String> roles;
+
+    public SignUpPlatform getSignUpPlatform() {
+        return SignUpPlatform.fromCode(this.signUpPlatform);
+    }
 
 }

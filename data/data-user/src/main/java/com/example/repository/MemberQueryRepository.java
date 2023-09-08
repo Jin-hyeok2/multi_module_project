@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MemberQueryRepository {
+interface MemberQueryRepository {
 
     Optional<Member> findOne(BooleanExpression... expressions);
     Optional<Member> findTop(String orderFiled, boolean asc, BooleanExpression... expressions);

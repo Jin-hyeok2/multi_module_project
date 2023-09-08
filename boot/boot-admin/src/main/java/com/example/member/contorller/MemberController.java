@@ -1,14 +1,12 @@
-package com.example.contorller;
+package com.example.member.contorller;
 
-import com.example.dto.SearchFilter;
+import com.example.member.dto.response.MemberResponse;
+import com.example.dto.SignInForm;
 import com.example.dto.SignUpForm;
-import com.example.dto.response.MemberResponse;
-import com.example.service.BootMemberService;
-import java.util.List;
+import com.example.member.service.BootMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +21,14 @@ public class MemberController {
 
     private final BootMemberService bootMemberService;
 
-    @GetMapping
-    public ResponseEntity<List<MemberResponse>> findAll(SearchFilter searchFilter) {
-        return ResponseEntity.ok(bootMemberService.findAll(searchFilter));
-    }
-
     @PostMapping
-    public ResponseEntity<MemberResponse> create(@RequestBody @Validated SignUpForm signUpForm) {
+    public ResponseEntity<MemberResponse> signUp(@RequestBody @Validated SignUpForm signUpForm) {
         return ResponseEntity.ok(bootMemberService.signUp(signUpForm));
     }
+
+    @PostMapping("/auth")
+    public ResponseEntity<MemberResponse> signIn(@RequestBody @Validated SignInForm signInForm) {
+        return ResponseEntity.ok(bootMemberService.signIn(signInForm));
+        }
 }
 

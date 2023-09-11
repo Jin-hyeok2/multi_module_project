@@ -1,4 +1,4 @@
-package com.example.member.dto.response;
+package com.example.member.response;
 
 import com.example.entity.Member;
 import com.example.entity.SignUpPlatform;
@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 @JsonInclude(Include.NON_NULL)
-public class MemberResponse {
+public class MemberResponse extends BaseResponse {
 
     private final String email;
     private final String name;

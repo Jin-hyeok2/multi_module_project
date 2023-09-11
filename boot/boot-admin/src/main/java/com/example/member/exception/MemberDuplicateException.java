@@ -1,6 +1,6 @@
 package com.example.member.exception;
 
-import com.example.member.dto.response.MemberResponse;
+import com.example.member.response.MemberResponse;
 import com.example.entity.Member;
 import org.springframework.http.HttpStatus;
 

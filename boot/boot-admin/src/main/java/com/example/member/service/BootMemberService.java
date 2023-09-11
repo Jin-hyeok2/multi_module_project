@@ -1,6 +1,6 @@
 package com.example.member.service;
 
-import com.example.member.dto.response.MemberResponse;
+import com.example.member.response.MemberResponse;
 import com.example.member.exception.MemberDuplicateException;
 import com.example.member.exception.MemberNotFoundException;
 import com.example.dto.SignInForm;

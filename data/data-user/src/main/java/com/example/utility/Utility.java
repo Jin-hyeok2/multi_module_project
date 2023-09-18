@@ -12,9 +12,14 @@ public class Utility {
     private final int KEY_LENGTH = 6;
     private final String VERIFY_LATTER_COLLECTION = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-    public String encodePassword(String raw) {
+    public String encodePassword(String rawPassword) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(raw);
+        return passwordEncoder.encode(rawPassword);
+    }
+
+    public boolean comparePassword(String rawPassword, String encodedPassword) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     public LocalDate parseDate(String s) {

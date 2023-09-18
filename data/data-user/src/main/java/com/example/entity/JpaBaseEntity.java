@@ -18,6 +18,6 @@ public class JpaBaseEntity {
     @LastModifiedDate
     protected LocalDateTime updatedAt;
     protected LocalDateTime deletedOn;
-    protected Boolean isDeleted = false;
+    protected Boolean deleted = false;
 
 }

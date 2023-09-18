@@ -1,7 +1,6 @@
 package com.example.repository;
 
 import static com.example.entity.QMember.member;
-import static com.example.entity.QMemberRole.memberRole;
 
 import com.example.entity.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,9 +17,7 @@ class MemberQueryRepositoryImpl implements MemberQueryRepository {
 
     @Override
     public Optional<Member> findOne(BooleanExpression... expressions) {
-        return Optional.ofNullable(jpaQueryFactory.select(member)
-            .from(memberRole)
-            .leftJoin(memberRole.member, member)
+        return Optional.ofNullable(jpaQueryFactory.selectFrom(member)
             .where(expressions)
             .fetchOne());
     }

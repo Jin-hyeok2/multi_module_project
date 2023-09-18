@@ -11,5 +11,4 @@ import org.springframework.http.HttpStatus;
 public class BaseException extends RuntimeException {
     private final String reason;
     private final HttpStatus httpStatus;
-    private Object data;
 }

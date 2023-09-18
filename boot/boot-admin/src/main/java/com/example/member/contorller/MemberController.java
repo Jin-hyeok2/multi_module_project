@@ -1,12 +1,10 @@
 package com.example.member.contorller;
 
-import com.example.dto.SignInForm;
-import com.example.dto.SignUpForm;
-import com.example.member.response.BaseResponseEntity;
-import com.example.member.response.MemberResponse;
+import com.example.member.dto.request.SignInForm;
+import com.example.member.dto.request.SignUpForm;
+import com.example.member.dto.response.BaseResponseEntity;
 import com.example.member.service.BootMemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,12 +22,23 @@ public class MemberController {
 
     @PostMapping
     public BaseResponseEntity signUp(@RequestBody @Validated SignUpForm signUpForm) {
-        return BaseResponseEntity.succeed(bootMemberService.signUp(signUpForm));
+        bootMemberService.signUp(
+            signUpForm.getEmail(),
+            signUpForm.getName(),
+            signUpForm.getPassword(),
+            signUpForm.getBirth(),
+            signUpForm.getPhoneNumber()
+        );
+        return BaseResponseEntity.succeed();
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<MemberResponse> signIn(@RequestBody @Validated SignInForm signInForm) {
-        return ResponseEntity.ok(bootMemberService.signIn(signInForm));
+    public BaseResponseEntity signIn(@RequestBody @Validated SignInForm signInForm) {
+        bootMemberService.signIn(
+            signInForm.getEmail(),
+            signInForm.getPassword()
+        );
+        return BaseResponseEntity.succeed();
     }
 }
 

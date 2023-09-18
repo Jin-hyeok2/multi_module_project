@@ -1,15 +1,10 @@
 package com.example.member.service;
 
-import com.example.member.response.MemberResponse;
-import com.example.member.exception.MemberDuplicateException;
-import com.example.member.exception.MemberNotFoundException;
-import com.example.dto.SignInForm;
-import com.example.dto.SignUpForm;
 import com.example.entity.Member;
-import com.example.entity.SignUpPlatform;
-import com.example.service.MemberAuthService;
-import com.example.service.MemberService;
-import java.util.List;
+import com.example.entity.Role;
+import com.example.member.exception.MemberException;
+import com.example.service.MemberAuthServiceImpl;
+import com.example.service.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,32 +12,34 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BootMemberService {
 
-    private final MemberService memberService;
-    private final MemberAuthService memberAuthService;
+    private final MemberServiceImpl memberServiceImpl;
+    private final MemberAuthServiceImpl memberAuthServiceImpl;
 
-    public MemberResponse signUp(SignUpForm signUpForm) {
-        memberService.findOne(
-                signUpForm.getEmail(),
-                signUpForm.getSignUpPlatform())
-            .ifPresent(MemberDuplicateException::from);
-        Member member = memberService.create(signUpForm);
-        memberAuthService.createVerificationKey(member);
-        return MemberResponse.from(member);
+    public void signUp(
+        String email,
+        String name,
+        String rawPassword,
+        String birth,
+        String phoneNumber
+    ) {
+        memberServiceImpl.findOneByEmail(email)
+            .ifPresent(MemberException::duplicated);
+        Member member = memberServiceImpl.create(
+            email,
+            name,
+            rawPassword,
+            birth,
+            phoneNumber,
+            Role.CUSTOMER
+        );
+        memberAuthServiceImpl.createVerificationKey(member);
     }
 
-    public MemberResponse signIn(SignInForm signInForm) {
-        List<Member> membersHasEmail = memberAuthService.getMembersHasEmail(signInForm);
-        if (membersHasEmail.size() == 0) {
-            throw MemberNotFoundException.of();
+    public void signIn(String email, String rawPassword) {
+        Member member = memberServiceImpl.findOneByEmail(email)
+            .orElseThrow(MemberException::emailNotFound);
+        if (!memberAuthServiceImpl.checkPassword(member, rawPassword)) {
+            throw MemberException.passwordNotMatch();
         }
-        Member targetMember;
-        for (Member member : membersHasEmail) {
-            if (member.getSignUpPlatform().equals(SignUpPlatform.DEFAULT)) {
-                targetMember = member;
-            }
-        }
-
-//        return MemberResponse.from(member);
-        return null;
     }
 }

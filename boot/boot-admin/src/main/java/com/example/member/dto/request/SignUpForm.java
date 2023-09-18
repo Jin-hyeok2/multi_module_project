@@ -1,11 +1,9 @@
-package com.example.dto;
+package com.example.member.dto.request;
 
-import com.example.entity.SignUpPlatform;
 import com.example.utility.EmailPattern;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,12 +25,5 @@ public class SignUpForm {
     @NotNull
     @Pattern(regexp = "^01(?:0|1|[6-9])-(?:[0-9]{3}|[0-9]{4})-[0-9]{4}$")
     private String phoneNumber;
-    @NotNull
-    private String signUpPlatform;
-    private List<String> roles;
-
-    public SignUpPlatform getSignUpPlatform() {
-        return SignUpPlatform.fromCode(this.signUpPlatform);
-    }
-
+    private String roles;
 }

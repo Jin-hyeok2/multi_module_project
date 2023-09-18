@@ -1,10 +1,11 @@
-package com.example.member.response;
+package com.example.member.dto.response;
 
-import com.example.member.response.BaseResponseEntity.BaseRes;
-import java.net.URI;
+import com.example.member.dto.response.BaseResponseEntity.BaseRes;
+import com.example.member.exception.BaseException;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
 import lombok.Getter;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.util.MultiValueMap;
 public class BaseResponseEntity extends ResponseEntity<BaseRes> {
 
     @Getter
+    @JsonInclude(Include.NON_NULL)
     public static class BaseRes {
         private final Boolean succeed;
         private final Object content;
@@ -27,6 +29,18 @@ public class BaseResponseEntity extends ResponseEntity<BaseRes> {
             } else {
                 this.size = 1;
             }
+        }
+
+        private BaseRes(boolean succeed) {
+            this.succeed = succeed;
+            this.content = null;
+            this.size = null;
+        }
+
+        private BaseRes(boolean succeed, String reason) {
+            this.succeed = succeed;
+            this.content = reason;
+            this.size = null;
         }
     }
     private BaseResponseEntity(HttpStatusCode status) {
@@ -46,6 +60,18 @@ public class BaseResponseEntity extends ResponseEntity<BaseRes> {
         super(body, headers, status);
     }
 
+    public static BaseResponseEntity succeed() {
+        return new BaseResponseEntity(new BaseRes(true), HttpStatus.OK);
+    }
+
+    public static BaseResponseEntity fail(BaseException baseException) {
+        return new BaseResponseEntity(new BaseRes(false, baseException.getReason()), baseException.getHttpStatus());
+    }
+
+    public static BaseResponseEntity fail() {
+        return new BaseResponseEntity(new BaseRes(false), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     public static <T extends BaseResponse> BaseResponseEntity succeed(T response) {
         return new BaseResponseEntity(new BaseRes(response), HttpStatus.OK);
     }
@@ -54,13 +80,13 @@ public class BaseResponseEntity extends ResponseEntity<BaseRes> {
         return new BaseResponseEntity(new BaseRes(response), HttpStatus.OK);
     }
 
-    public static <T extends BaseResponse> BaseResponseEntity create(T body, URI uri,
-        MultiValueMap<String, String> headers) {
-        BodyBuilder created = ResponseEntity.created(uri);
-        created.headers(new HttpHeaders(headers));
-        ResponseEntity<BaseRes> response = created.body(new BaseRes(body));
-        return new BaseResponseEntity(response.getBody(), response.getHeaders(),
-            response.getStatusCode());
-    }
+//    public static <T extends BaseResponse> BaseResponseEntity create(T body, URI uri,
+//        MultiValueMap<String, String> headers) {
+//        BodyBuilder created = ResponseEntity.created(uri);
+//        created.headers(new HttpHeaders(headers));
+//        ResponseEntity<BaseRes> response = created.body(new BaseRes(body));
+//        return new BaseResponseEntity(response.getBody(), response.getHeaders(),
+//            response.getStatusCode());
+//    }
 
 }

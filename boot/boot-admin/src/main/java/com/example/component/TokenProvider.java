@@ -14,15 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class TokenProvider {
 
-    @Value("${}")
     private final String accessSecretKey = "temp";
-    @Value("${}")
     private final String refreshSecretKey = "temp";
-    @Value("${}")
     private final long accessExpirationHours = 10;
-    @Value("${}")
     private final long refreshExpirationHours = 7;
-    @Value("${}")
     private final String issuer = "temp";
 
     public String createAccessToken(String userSpecification) {

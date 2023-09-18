@@ -41,14 +41,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String parseBearerToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader("AUTHROIZATION"))
+        return Optional.ofNullable(request.getHeader("AUTHORIZATION"))
             .filter(value -> value.startsWith("Bearer "))
             .map(token -> token.substring(7))
             .orElse(null);
     }
 
     private User parseUserSpecification(String token) {
-        String[] split = Optional.of(token)
+        String[] split = Optional.ofNullable(token)
             .map(tokenProvider::validateAccessTokenAndGetSubject)
             .orElse("anonymous:anonymous")
             .split(":");

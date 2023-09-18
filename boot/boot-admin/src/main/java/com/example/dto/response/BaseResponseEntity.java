@@ -1,7 +1,7 @@
-package com.example.member.dto.response;
+package com.example.dto.response;
 
-import com.example.member.dto.response.BaseResponseEntity.BaseRes;
-import com.example.member.exception.BaseException;
+import com.example.exception.BaseException;
+import com.example.dto.response.BaseResponseEntity.BaseRes;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;

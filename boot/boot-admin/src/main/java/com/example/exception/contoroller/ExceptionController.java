@@ -1,7 +1,7 @@
-package com.example.member.exception.contoroller;
+package com.example.exception.contoroller;
 
-import com.example.member.dto.response.BaseResponseEntity;
-import com.example.member.exception.BaseException;
+import com.example.exception.BaseException;
+import com.example.dto.response.BaseResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 

@@ -31,9 +31,9 @@ public class SecurityConfig {
                 .requestMatchers(
                     AntPathRequestMatcher.antMatcher("/**")).permitAll()
                 .anyRequest().authenticated())
-            .sessionManagement(httpSecuritySessionManagementConfigurer ->
-                httpSecuritySessionManagementConfigurer
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//            .sessionManagement(httpSecuritySessionManagementConfigurer ->
+//                httpSecuritySessionManagementConfigurer
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
             .build();
     }

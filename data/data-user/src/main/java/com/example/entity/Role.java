@@ -6,19 +6,21 @@ import lombok.Getter;
 
 @Getter
 public enum Role {
-    OWNER("대표"),
-    MANAGER("매니저"),
-    DEVELOPER("개발자"),
-    CUSTOMER("가입 고객"),
-    GUEST("손님"),
+    OWNER("대표", true),
+    MANAGER("매니저", false),
+    DEVELOPER("개발자", true),
+    CUSTOMER("가입 고객", false),
+    GUEST("손님", false),
     ;
 
     private final String code;
     private final String description;
+    private final Boolean authorization;
 
-    Role(String description) {
+    Role(String description, Boolean authorization) {
         this.code = this.name();
         this.description = description;
+        this.authorization = authorization;
     }
 
     public static Role fromCode(String code) throws EnumNotFoundException {

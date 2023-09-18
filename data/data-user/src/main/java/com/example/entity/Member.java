@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +28,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = {"email", "deletedOn"}))
+@Table(name = "members", uniqueConstraints = @UniqueConstraint(columnNames = {"email",
+    "deletedOn"}))
 @Where(clause = "DELETED = FALSE")
 @SQLDelete(sql = "UPDATE MEMBERS SET DELETED = TRUE WHERE ID = ?")
 public class Member extends JpaBaseEntity implements UserDetails {
@@ -47,13 +49,18 @@ public class Member extends JpaBaseEntity implements UserDetails {
     @NotNull
     private String phoneNumber;
     // 인증 정보
-    @NotNull
-    @Builder.Default
-    private Boolean isVerified = false;
+    private Boolean isVerified;
     private String verificationKey;
     private LocalDateTime verifyExpiredAt;
 
+    @NotNull
     private Role role;
+
+    @PrePersist
+    public void prePersist() {
+        this.isVerified = role.getAuthorization();
+    }
+
 
     public String setVerificationKey(String verificationKey) {
         this.verificationKey = verificationKey;

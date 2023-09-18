@@ -1,9 +1,9 @@
-package com.example.member.contorller;
+package com.example.contorller;
 
-import com.example.member.dto.request.SignInForm;
-import com.example.member.dto.request.SignUpForm;
-import com.example.member.dto.response.BaseResponseEntity;
-import com.example.member.service.BootMemberService;
+import com.example.dto.request.SignInForm;
+import com.example.dto.request.SignUpForm;
+import com.example.dto.response.BaseResponseEntity;
+import com.example.service.BootMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.example.member.dto.response;
+package com.example.dto.response;
 
 import com.example.entity.Member;
 import com.fasterxml.jackson.annotation.JsonInclude;

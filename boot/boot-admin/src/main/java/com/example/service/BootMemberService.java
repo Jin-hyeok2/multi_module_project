@@ -1,10 +1,8 @@
-package com.example.member.service;
+package com.example.service;
 
 import com.example.entity.Member;
 import com.example.entity.Role;
-import com.example.member.exception.MemberException;
-import com.example.service.MemberAuthServiceImpl;
-import com.example.service.MemberServiceImpl;
+import com.example.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

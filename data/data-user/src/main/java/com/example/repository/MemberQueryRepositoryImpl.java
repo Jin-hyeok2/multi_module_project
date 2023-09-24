@@ -25,7 +25,7 @@ class MemberQueryRepositoryImpl implements MemberQueryRepository {
     @Override
     public Optional<Member> findTop(String orderFiled, boolean asc,
         BooleanExpression... expressions) {
-        PathBuilder<Member> entityPath = new PathBuilder<>(Member.class, "member");
+        PathBuilder<Member> entityPath = new PathBuilder<>(Member.class, "members");
 
         return Optional.ofNullable(jpaQueryFactory.selectFrom(member)
             .where(expressions)

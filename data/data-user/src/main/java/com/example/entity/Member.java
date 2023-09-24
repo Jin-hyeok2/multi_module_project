@@ -9,7 +9,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -50,8 +49,6 @@ public class Member extends JpaBaseEntity implements UserDetails {
     private String phoneNumber;
     // 인증 정보
     private Boolean isVerified;
-    private String verificationKey;
-    private LocalDateTime verifyExpiredAt;
 
     @NotNull
     private Role role;
@@ -61,11 +58,8 @@ public class Member extends JpaBaseEntity implements UserDetails {
         this.isVerified = role.getAuthorization();
     }
 
-
-    public String setVerificationKey(String verificationKey) {
-        this.verificationKey = verificationKey;
-        this.verifyExpiredAt = LocalDateTime.now().plusMinutes(3);
-        return verificationKey;
+    public void verify() {
+        this.isVerified = true;
     }
 
     @Override

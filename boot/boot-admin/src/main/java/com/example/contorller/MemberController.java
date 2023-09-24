@@ -2,9 +2,12 @@ package com.example.contorller;
 
 import com.example.dto.request.SignInForm;
 import com.example.dto.request.SignUpForm;
+import com.example.dto.response.BaseResponse;
 import com.example.dto.response.BaseResponseEntity;
 import com.example.service.BootMemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,11 +37,13 @@ public class MemberController {
 
     @PostMapping("/auth")
     public BaseResponseEntity signIn(@RequestBody @Validated SignInForm signInForm) {
-        bootMemberService.signIn(
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        String[] tokens = bootMemberService.signIn(
             signInForm.getEmail(),
             signInForm.getPassword()
         );
-        return BaseResponseEntity.succeed();
+        headers.add("Set-Cookie", tokens[0]);
+        return BaseResponseEntity.succeed(new BaseResponse(tokens[1]), headers);
     }
 }
 

@@ -1,5 +1,7 @@
 package com.example.component;
 
+import com.example.exception.MemberRollbackException;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,10 +50,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private User parseUserSpecification(String token) {
-        String[] split = Optional.ofNullable(token)
-            .map(tokenProvider::validateAccessTokenAndGetSubject)
-            .orElse("anonymous:anonymous")
-            .split(":");
-        return new User(split[0], "", List.of(new SimpleGrantedAuthority(split[1])));
+        try {
+            String[] split = Optional.ofNullable(token)
+                .map(tokenProvider::validateAccessTokenAndGetSubject)
+                .orElse("anonymous:anonymous")
+                .split(":");
+            return new User(split[0], "", List.of(new SimpleGrantedAuthority(split[1])));
+        } catch (ExpiredJwtException e) {
+            throw MemberRollbackException.expiredToken();
+        } catch (Exception e) {
+            throw MemberRollbackException.invalidToken();
+        }
     }
 }

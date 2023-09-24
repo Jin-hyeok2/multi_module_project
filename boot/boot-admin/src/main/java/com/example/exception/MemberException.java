@@ -1,6 +1,5 @@
 package com.example.exception;
 
-import com.example.entity.Member;
 import org.springframework.http.HttpStatus;
 
 public class MemberException extends BaseException {
@@ -9,25 +8,10 @@ public class MemberException extends BaseException {
         super(reason, httpStatus);
     }
 
-
-    public static MemberException emailNotFound() {
+    public static MemberException failMailSend(String email) {
         return new MemberException(
-            "member not found",
-            HttpStatus.NOT_FOUND
-        );
-    }
-
-    public static MemberException passwordNotMatch() {
-        return new MemberException(
-            "password not match",
-            HttpStatus.BAD_REQUEST
-        );
-    }
-
-    public static void duplicated(Member ignoredMember) {
-        throw new MemberException(
-            "email duplication",
-            HttpStatus.CONFLICT
+            "fail sending mail to " + email,
+            HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 }

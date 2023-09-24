@@ -1,9 +1,7 @@
 package com.example.dto.response;
 
 import com.example.exception.BaseException;
-import com.example.dto.response.BaseResponseEntity.BaseRes;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.example.exception.BaseRollbackException;
 import java.util.List;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -12,72 +10,63 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 @Getter
-public class BaseResponseEntity extends ResponseEntity<BaseRes> {
+public class BaseResponseEntity extends ResponseEntity<BaseResponse> {
 
-    @Getter
-    @JsonInclude(Include.NON_NULL)
-    public static class BaseRes {
-        private final Boolean succeed;
-        private final Object content;
-        private final Integer size;
-
-        private BaseRes(Object content) {
-            this.succeed = true;
-            this.content = content;
-            if (content instanceof List) {
-                this.size = ((List<?>) content).size();
-            } else {
-                this.size = 1;
-            }
-        }
-
-        private BaseRes(boolean succeed) {
-            this.succeed = succeed;
-            this.content = null;
-            this.size = null;
-        }
-
-        private BaseRes(boolean succeed, String reason) {
-            this.succeed = succeed;
-            this.content = reason;
-            this.size = null;
-        }
-    }
     private BaseResponseEntity(HttpStatusCode status) {
         super(status);
+    }
+
+    private BaseResponseEntity(BaseResponse body, HttpStatusCode status) {
+        super(body, status);
+    }
+
+    private BaseResponseEntity(BaseResponse body, MultiValueMap<String, String> headers,
+        HttpStatusCode status) {
+        super(body, headers, status);
     }
 
     public static BaseResponseEntity delete() {
         return new BaseResponseEntity(HttpStatus.OK);
     }
 
-    private BaseResponseEntity(BaseRes body, HttpStatusCode status) {
-        super(body, status);
+    public static BaseResponseEntity succeed(MultiValueMap<String, String> headers) {
+        return new BaseResponseEntity(new BaseResponse(true), headers, HttpStatus.OK);
     }
 
-    public BaseResponseEntity(BaseRes body, MultiValueMap<String, String> headers,
-        HttpStatusCode status) {
-        super(body, headers, status);
+    public static BaseResponseEntity succeed(BaseResponse body,
+        MultiValueMap<String, String> headers) {
+        return new BaseResponseEntity(body, headers, HttpStatus.OK);
     }
+
+//    public BaseResponseEntity(MultiValueMap<String, String> headers,
+//        HttpStatusCode status) {
+//        super(headers, status);
+//    }
 
     public static BaseResponseEntity succeed() {
-        return new BaseResponseEntity(new BaseRes(true), HttpStatus.OK);
+        return new BaseResponseEntity(new BaseResponse(true), HttpStatus.OK);
     }
 
-    public static BaseResponseEntity fail(BaseException baseException) {
-        return new BaseResponseEntity(new BaseRes(false, baseException.getReason()), baseException.getHttpStatus());
+    public static BaseResponseEntity fail(BaseRollbackException baseRollbackException) {
+        return new BaseResponseEntity(new BaseResponse(false, baseRollbackException.getReason()),
+            baseRollbackException.getHttpStatus());
+    }
+
+    public static BaseResponseEntity fail(BaseException baseRollbackException) {
+        return new BaseResponseEntity(new BaseResponse(false, baseRollbackException.getReason()),
+            baseRollbackException.getHttpStatus());
     }
 
     public static BaseResponseEntity fail() {
-        return new BaseResponseEntity(new BaseRes(false), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new BaseResponseEntity(new BaseResponse(false), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     public static <T extends BaseResponse> BaseResponseEntity succeed(T response) {
-        return new BaseResponseEntity(new BaseRes(response), HttpStatus.OK);
+        return new BaseResponseEntity(new BaseResponse(response), HttpStatus.OK);
     }
 
     public static <C extends BaseResponse> BaseResponseEntity succeed(List<C> response) {
-        return new BaseResponseEntity(new BaseRes(response), HttpStatus.OK);
+        return new BaseResponseEntity(new BaseResponse(response), HttpStatus.OK);
     }
 
 //    public static <T extends BaseResponse> BaseResponseEntity create(T body, URI uri,

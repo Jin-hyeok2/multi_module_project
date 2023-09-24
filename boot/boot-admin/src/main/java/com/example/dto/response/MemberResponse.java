@@ -4,14 +4,13 @@ import com.example.entity.Member;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @JsonInclude(Include.NON_NULL)
-public class MemberResponse extends BaseResponse {
+public class MemberResponse {
 
     private final String email;
     private final String name;
@@ -19,7 +18,6 @@ public class MemberResponse extends BaseResponse {
 
     @Builder(access = AccessLevel.PRIVATE)
     private MemberResponse(
-        UUID id,
         String email,
         String name,
         LocalDateTime createdAt
@@ -29,13 +27,12 @@ public class MemberResponse extends BaseResponse {
         this.createdAt = createdAt;
     }
 
-    public static MemberResponse from(Member member) {
-        return MemberResponse.builder()
-            .id(member.getId())
+    public static BaseResponse from(Member member) {
+        return new BaseResponse(MemberResponse.builder()
             .email(member.getEmail())
             .name(member.getName())
             .createdAt(member.getCreatedAt())
-            .build();
+            .build());
     }
 
 }

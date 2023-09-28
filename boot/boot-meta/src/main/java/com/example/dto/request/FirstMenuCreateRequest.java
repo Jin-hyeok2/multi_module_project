@@ -1,5 +1,6 @@
 package com.example.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,10 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInForm {
+public class FirstMenuCreateRequest {
 
-    private String email;
-    private String password;
-    private Boolean isRemember;
+    @NotBlank
+    private String title;
 
 }

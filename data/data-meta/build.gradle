@@ -1,13 +1,7 @@
-
-tasks.named('bootJar'){ // bootJar 세팅을 켜기
-    enabled = true
-}
-
-tasks.named('jar'){ // jar 설정은 끄기
+bootJar {
     enabled = false
 }
 
-dependencies {
-    runtimeOnly 'com.h2database:h2'
-    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.1.0'
+jar {
+    enabled = true
 }

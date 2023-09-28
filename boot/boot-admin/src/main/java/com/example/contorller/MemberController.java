@@ -40,7 +40,8 @@ public class MemberController {
         MultiValueMap<String, String> headers = new HttpHeaders();
         String[] tokens = bootMemberService.signIn(
             signInForm.getEmail(),
-            signInForm.getPassword()
+            signInForm.getPassword(),
+            signInForm.getIsRemember()
         );
         headers.add("Set-Cookie", tokens[0]);
         return BaseResponseEntity.succeed(new BaseResponse(tokens[1]), headers);

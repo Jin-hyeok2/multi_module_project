@@ -27,12 +27,16 @@ public class MemberResponse {
         this.createdAt = createdAt;
     }
 
-    public static BaseResponse from(Member member) {
-        return new BaseResponse(MemberResponse.builder()
+    public static MemberResponse from(Member member) {
+        return MemberResponse.builder()
             .email(member.getEmail())
             .name(member.getName())
             .createdAt(member.getCreatedAt())
-            .build());
+            .build();
+    }
+
+    public BaseResponse toResponse() {
+        return new BaseResponse(this);
     }
 
 }

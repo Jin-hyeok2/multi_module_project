@@ -60,7 +60,7 @@ public class BootMemberService {
             }, MemberRollbackException::emailNotFound);
     }
 
-    public String[] signIn(String email, String rawPassword) {
+    public String[] signIn(String email, String rawPassword, Boolean isRemember) {
         Member member = memberServiceImpl.findOneByEmail(email)
             .orElseThrow(MemberRollbackException::emailNotFound);
         if (!memberAuthServiceImpl.checkPassword(member, rawPassword)) {
@@ -68,7 +68,8 @@ public class BootMemberService {
         }
         String userSpecification = String.format("%s:%s", member.getId(), member.getRole());
         String accessToken = tokenProvider.createAccessToken(userSpecification);
-        String refreshToken = tokenProvider.createRefreshToken(userSpecification);
+        String refreshToken = isRemember ? null :
+            tokenProvider.createRefreshToken(userSpecification);
         return new String[]{accessToken, refreshToken};
     }
 }

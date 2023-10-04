@@ -43,7 +43,7 @@ public class MemberController {
             signInForm.getPassword(),
             signInForm.getIsRemember()
         );
-        headers.add("Set-Cookie", tokens[0]);
+        headers.add("Set-Cookie", String.format("%s=Bearer %s", "accessToken", tokens[0]));
         return BaseResponseEntity.succeed(new BaseResponse(tokens[1]), headers);
     }
 }

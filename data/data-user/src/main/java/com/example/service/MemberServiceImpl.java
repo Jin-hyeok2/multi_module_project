@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.entity.Member;
 import com.example.entity.Role;
 import com.example.repository.MemberRepository;
+import com.example.repository.expression.MemberQuery;
 import com.example.utility.Utility;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class MemberServiceImpl {
     private final MemberRepository memberRepository;
 
     public Optional<Member> findOneByEmail(String email) {
-        return memberRepository.findByEmail(email);
+        return memberRepository.findOne(MemberQuery.eqEmail(email));
     }
 
     public void create(

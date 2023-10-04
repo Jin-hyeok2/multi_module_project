@@ -68,7 +68,7 @@ public class BootMemberService {
         }
         String userSpecification = String.format("%s:%s", member.getId(), member.getRole());
         String accessToken = tokenProvider.createAccessToken(userSpecification);
-        String refreshToken = isRemember ? null :
+        String refreshToken = isRemember == null || isRemember ? null :
             tokenProvider.createRefreshToken(userSpecification);
         return new String[]{accessToken, refreshToken};
     }

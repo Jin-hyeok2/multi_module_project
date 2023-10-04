@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.dto.request.FirstMenuCreateRequest;
 import com.example.dto.request.MenuFinderParam;
 import com.example.dto.request.SecondMenuCreateRequest;
+import com.example.dto.response.BaseResponse;
 import com.example.dto.response.BaseResponseEntity;
 import com.example.dto.response.MenuResponse;
 import com.example.service.MenuService;
@@ -23,14 +24,15 @@ public class MenuController {
     final static String REQUEST_URI = "/menu";
 
     private final MenuService menuService;
+    private MenuResponse menuResponse;
 
     @GetMapping
     public BaseResponseEntity findAllMenu(@Validated MenuFinderParam param) {
         return BaseResponseEntity.succeed(
             menuService.firstMenuService.findAll(param.getTitles())
                 .stream()
-                .map(MenuResponse::from)
-                .map(MenuResponse::toResponse)
+                .map(menuResponse)
+                .map(BaseResponse::new)
                 .collect(Collectors.toList())
         );
     }
